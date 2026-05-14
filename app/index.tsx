@@ -1,4 +1,5 @@
 import Contact from "@/components/contact";
+import IconNavigation from "@/components/iconNavigation";
 import InputMessage from "@/components/inputMessage";
 import Messages from "@/components/messages";
 import { useRef, useState } from "react";
@@ -59,7 +60,15 @@ export default function Index() {
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
-          <Contact>Flow Bot</Contact>
+          <View style={styles.contactSpace}>
+            <Contact>Finance Bot</Contact>
+            <IconNavigation
+              style={styles.icon}
+              link="/categories"
+              icon="grid-outline"
+              size={24}
+            />
+          </View>
           <View style={styles.box}>
             <FlatList
               data={messages}
@@ -91,5 +100,17 @@ const styles = StyleSheet.create({
   box: {
     flex: 1,
     margin: 2,
+  },
+  contactSpace: {
+    borderColor: "gray",
+    borderBottomWidth: 1,
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  icon: {
+    justifyContent: "center",
+    alignSelf: "center",
   },
 });
