@@ -1,4 +1,4 @@
-import { Message } from "@/app";
+import { Message } from "@/app/home";
 import { StyleSheet, Text, View } from "react-native";
 
 interface MessagesProps {
