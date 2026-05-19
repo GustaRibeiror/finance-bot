@@ -1,11 +1,11 @@
 import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
-export default function AddCategoryButton() {
-  function onPress() {
-    return null;
-  }
+interface AddCategoryButtonProps {
+  onPress: () => void;
+}
 
+export default function AddCategoryButton({ onPress }: AddCategoryButtonProps) {
   return (
     <TouchableOpacity
       style={styles.button}
