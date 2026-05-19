@@ -1,7 +1,10 @@
+import AddCategoryButton from "@/components/addCategoryButton";
 import CategoriesList from "@/components/categoriesList";
 import Contact from "@/components/contact";
 import IconNavigation from "@/components/iconNavigation";
 import { colors } from "@/constants/colors";
+import { getCategories } from "@/services/categoryService";
+import { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 
 export interface Category {
@@ -10,22 +13,37 @@ export interface Category {
   type: "income" | "expense";
 }
 
-const MOCK_CATEGORIES: Category[] = [
-  { id: 1, name: "Salário", type: "income" },
-  { id: 2, name: "Alimentação", type: "expense" },
-  { id: 3, name: "Transporte", type: "expense" },
-  { id: 4, name: "Investimentos", type: "income" },
-];
-
 export default function Categories() {
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    async function fetchCategories() {
+      try {
+        const data = await getCategories();
+        setCategories(data);
+        console.log("Categorias:", data);
+      } catch (error) {
+        console.log(`Erro ao buscar categorias: ${error}`);
+      }
+    }
+
+    fetchCategories();
+  }, []);
+
   return (
     <View style={styles.container}>
       <View style={styles.contactSpace}>
         <Contact>Minhas Categorias</Contact>
-        <IconNavigation style={styles.icon} link="/" icon="chatbox" size={24} />
+        <IconNavigation
+          style={styles.icon}
+          link="/home"
+          icon="chatbox"
+          size={24}
+        />
       </View>
       <View style={{ flex: 1, marginHorizontal: 14 }}>
-        <CategoriesList data={MOCK_CATEGORIES} />
+        <AddCategoryButton />
+        <CategoriesList data={categories} />
       </View>
     </View>
   );

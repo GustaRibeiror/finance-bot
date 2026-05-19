@@ -1,5 +1,6 @@
 import { colors } from "@/constants/colors";
 import { login } from "@/services/authService";
+import { useRouter } from "expo-router";
 import { useState } from "react";
 import {
   Image,
@@ -12,34 +13,42 @@ import {
   View,
 } from "react-native";
 
+import * as SecureStore from "expo-secure-store";
+
 export default function Index() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorLoginMessage, setErrorLoginMessage] = useState<string | null>(
+    null,
+  );
+
+  const router = useRouter();
 
   async function handlePress() {
     try {
-      console.log("logando");
+      setErrorLoginMessage(null);
+
       const data = await login(email, password);
 
-      console.log("DEU CERTO! Olha o retorno da API:", data);
-    } catch (error) {
-      console.log("Credenciais inválidas ou erro no servidor.");
+      await SecureStore.setItemAsync("user_token", data.token);
+
+      router.replace("/home");
+    } catch (error: any) {
+      setErrorLoginMessage(error.message);
     }
   }
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.container}>
-        {/* --- ÁREA DA LOGO E TEXTOS --- */}
         <View style={styles.logoContainer}>
           <Image
             style={styles.image}
             source={require("../assets/images/money_icon.png")}
           />
           <Text style={styles.title}>Bem-vindo</Text>
-          <Text style={styles.subtitle}>Faça login para continuar</Text>
+          <Text style={styles.subtitle}>Faça login para entrar no sistema</Text>
         </View>
-        {/* --- ÁREA DO FORMULÁRIO --- */}
         <View style={styles.formContainer}>
           <TextInput
             style={styles.input}
@@ -58,6 +67,7 @@ export default function Index() {
             value={password}
             onChangeText={(e) => setPassword(e)}
           />
+          <Text style={styles.errorText}>{errorLoginMessage}</Text>
           <TouchableOpacity
             style={styles.button}
             activeOpacity={0.8}
@@ -95,7 +105,7 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 16,
     color: "#a0a0a0",
-    marginTop: 8,
+    marginTop: 4,
   },
   formContainer: {
     width: "100%",
@@ -123,5 +133,10 @@ const styles = StyleSheet.create({
     color: "#ffffff",
     fontSize: 18,
     fontWeight: "bold",
+  },
+  errorText: {
+    color: "red",
+    fontSize: 16,
+    padding: 4,
   },
 });

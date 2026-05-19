@@ -8,8 +8,12 @@ export async function login(email: string, password: string) {
     });
 
     return response.data;
-  } catch (error) {
-    console.log(`Erro no login: ${error}`);
-    throw error;
+  } catch (error: any) {
+    if (error.response) {
+      const message = error.response.data.message;
+      throw new Error(message || "Erro de comunicação com o vidor");
+    }
+
+    throw new Error("Não foi possível conectar com o servidor");
   }
 }

@@ -9,12 +9,12 @@ interface InputMessageProps {
 
 export default function InputMessage({ onSendMessage }: InputMessageProps) {
   const [text, setText] = useState("");
+  const [categories, setCategories] = useState([]);
 
-  function handleInput() {
+  async function handleInput() {
     if (text.trim().length > 0) {
       onSendMessage(text);
     }
-
     setText("");
   }
   return (

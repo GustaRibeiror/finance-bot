@@ -1,6 +1,5 @@
 import { Category } from "@/app/categories";
 import { Ionicons } from "@expo/vector-icons";
-import { useState } from "react";
 import {
   FlatList,
   StyleSheet,
@@ -14,8 +13,6 @@ interface Prop {
 }
 
 export default function CategoriesList({ data }: Prop) {
-  const [categories, setCategories] = useState<Category[]>(data);
-
   const renderCategoryItem = ({ item }: { item: Category }) => {
     const isIncome = item.type == "income";
 
@@ -63,7 +60,7 @@ export default function CategoriesList({ data }: Prop) {
   return (
     <View style={styles.container}>
       <FlatList
-        data={categories}
+        data={data}
         keyExtractor={(item) => item.id.toString()}
         renderItem={renderCategoryItem}
       />
@@ -74,15 +71,15 @@ export default function CategoriesList({ data }: Prop) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#121212", // Fundo bem escuro
+    backgroundColor: "#121212",
     paddingTop: 50,
   },
   listContainer: {
     paddingHorizontal: 20,
-    paddingBottom: 100, // Espaço no final para o botão flutuante depois
+    paddingBottom: 100,
   },
   card: {
-    backgroundColor: "#fffffff6", // Cinza escuro para destacar do fundo
+    backgroundColor: "#fffffff6",
     borderRadius: 12,
     padding: 16,
     marginBottom: 12,
@@ -106,20 +103,20 @@ const styles = StyleSheet.create({
     borderRadius: 6,
   },
   badgeIncome: {
-    backgroundColor: "rgba(76, 175, 79, 0.34)", // Verde transparente
+    backgroundColor: "rgba(76, 175, 79, 0.34)",
   },
   badgeExpense: {
-    backgroundColor: "rgba(244, 67, 54, 0.2)", // Vermelho transparente
+    backgroundColor: "rgba(244, 67, 54, 0.2)",
   },
   badgeText: {
     fontSize: 12,
     fontWeight: "bold",
   },
   textIncome: {
-    color: "#375d39", // Verde pastel claro
+    color: "#375d39",
   },
   textExpense: {
-    color: "#8c3f3f", // Vermelho pastel claro
+    color: "#8c3f3f",
   },
   actionsContainer: {
     flexDirection: "row",
